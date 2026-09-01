@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><title>GPTClient – BioKt v2.0</title>
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:13px; background:#0d1117; color:#e6edf3;
+  line-height:1.6;
+}
+a { color:#58a6ff; text-decoration:none; }
+a:hover { text-decoration:underline; color:#79c0ff; }
+code, pre {
+  font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+  font-size:12px;
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#161b22; }
+::-webkit-scrollbar-thumb { background:#30363d; border-radius:3px; }
+
+body { padding:0 0 40px 0; overflow-x:auto; }
+
+/* ── top nav bar ── */
+.navbar {
+  background:#161b22; border-bottom:1px solid #30363d;
+  padding:8px 20px; display:flex; align-items:center; gap:16px;
+  position:sticky; top:0; z-index:10;
+}
+.navbar .brand { font-weight:700; color:#58a6ff; font-size:13px; }
+.navbar .nav-links { display:flex; gap:14px; margin-left:auto; }
+.navbar .nav-links a { font-size:11px; color:#8b949e; }
+.navbar .nav-links a:hover { color:#e6edf3; }
+
+/* ── breadcrumb ── */
+.breadcrumb {
+  padding:10px 24px; font-size:11px; color:#8b949e;
+  border-bottom:1px solid #30363d40;
+}
+.breadcrumb a { color:#8b949e; }
+.breadcrumb span { color:#c9d1d9; }
+
+/* ── page body ── */
+.content { padding:24px 28px; max-width:960px; }
+
+/* ── class hero ── */
+.cls-hero {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:22px 24px; margin-bottom:28px;
+}
+.cls-hero .kind-badge {
+  display:inline-block; font-size:10px; font-weight:700;
+  padding:2px 8px; border-radius:12px; margin-bottom:8px;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.cls-hero h1 { font-size:26px; font-weight:800; color:#e6edf3; margin-bottom:8px; }
+.cls-hero .src { font-size:11px; color:#8b949e; margin-bottom:12px; }
+.cls-hero .desc { font-size:13px; color:#c9d1d9; line-height:1.7; }
+
+/* ── section headers ── */
+.section {
+  margin-top:32px; border-top:2px solid #30363d; padding-top:18px;
+}
+.section h2 {
+  font-size:14px; font-weight:700; color:#e6edf3;
+  display:flex; align-items:center; gap:8px; margin-bottom:16px;
+}
+.section h2 .badge {
+  font-size:10px; background:#1f6feb; color:#fff;
+  padding:1px 7px; border-radius:10px; font-weight:600;
+}
+
+/* ── member tables ── */
+.member-table {
+  width:100%; border-collapse:collapse; border:1px solid #30363d;
+  border-radius:8px; overflow:hidden;
+}
+.member-table thead tr { background:#21262d; }
+.member-table thead th {
+  padding:9px 14px; text-align:left; font-size:11px;
+  font-weight:700; color:#8b949e; text-transform:uppercase;
+  letter-spacing:.5px; border-bottom:1px solid #30363d;
+}
+.member-table tbody tr:nth-child(even) { background:#161b22; }
+.member-table tbody tr:nth-child(odd) { background:#1c2128; }
+.member-table tbody tr:hover { background:#21262d; }
+.member-table td { padding:9px 14px; vertical-align:top; }
+.member-table td.name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#ffa657; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.ret {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:11px; color:#bc8cff; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.desc { font-size:12px; color:#c9d1d9; }
+.member-table td.prop-name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#3fb950;
+  border-right:1px solid #30363d40;
+}
+.member-table td.prop-desc { font-size:12px; color:#c9d1d9; }
+
+/* ── anchor detail cards (method detail section) ── */
+.member-detail {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:8px; padding:18px 20px; margin-bottom:14px;
+}
+.member-detail .sig {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:13px; color:#ffa657;
+  background:#1f2937; border-radius:5px;
+  padding:8px 14px; margin-bottom:10px;
+  border-left:3px solid #ffa657;
+}
+.member-detail .ret-label {
+  font-size:11px; color:#8b949e; margin-bottom:4px; font-weight:600;
+}
+.member-detail .ret-type {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#bc8cff;
+}
+.member-detail .member-desc {
+  font-size:13px; color:#c9d1d9; margin-top:10px; line-height:1.7;
+}
+
+/* ── code example block ── */
+.example-block {
+  background:#1f2937; border:1px solid #30363d;
+  border-radius:8px; padding:16px 18px; margin-top:24px;
+}
+.example-block .ex-label {
+  font-size:10px; font-weight:700; color:#3fb950;
+  text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px;
+}
+.example-block pre {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#e6edf3; line-height:1.7;
+  white-space:pre-wrap; word-break:break-all;
+}
+/* Syntax colouring in examples */
+.kw  { color:#ff7b72; }
+.st  { color:#a5d6ff; }
+.cm  { color:#8b949e; font-style:italic; }
+.fn  { color:#ffa657; }
+.num { color:#79c0ff; }
+.tp  { color:#ffa657; }
+
+/* ── overview cards ── */
+.module-card {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:20px 22px; margin-bottom:18px;
+}
+.module-card h3 {
+  font-size:16px; font-weight:700; color:#58a6ff; margin-bottom:6px;
+}
+.module-card .file-tag {
+  font-size:10px; color:#8b949e; font-family:monospace; margin-bottom:10px;
+}
+.module-card .mod-desc {
+  font-size:13px; color:#c9d1d9; line-height:1.6; margin-bottom:14px;
+}
+.cls-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:#21262d; border:1px solid #30363d;
+  border-radius:14px; padding:3px 10px; margin:3px;
+  font-size:11px; text-decoration:none;
+}
+.cls-chip:hover { background:#1f6feb20; border-color:#1f6feb; text-decoration:none; }
+.cls-chip .dot { width:6px; height:6px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="navbar">
+  <span class="brand">BioKt v2.0</span>
+  <div class="nav-links">
+    <a href="overview.html" target="detailFrame">Overview</a>
+    <a href="allclasses.html" target="classFrame">All Classes</a>
+    <a href="index.html" target="_top">Frames</a>
+  </div>
+</div>
+<div class="content">
+
+
+<div style="display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;margin-bottom:20px;border-bottom:1px solid #30363d40;
+  font-size:12px">
+  <span><a href="cls_biokt.ml_FeatureExtractor.html">← FeatureExtractor</a></span>
+  <a href="pkg_biokt.gpt.html" style="color:#8b949e">
+    GPT Client module
+  </a>
+  <span><a href="cls_biokt.gpt_GPTConfig.html">GPTConfig →</a></span>
+</div>
+<div class="cls-hero">
+  <div class="kind-badge" style="background:#56d36420;color:#56d364;border:1px solid #56d36440">
+    class
+  </div>
+  <h1>GPTClient</h1>
+  <div class="src">&#128196; GPTClient.kt · GPT Client module</div>
+  <div class="desc">REST API client for LLM providers. Built-in biological interpretation methods for DNA, protein, and drug molecules. Create via factory methods.</div>
+</div>
+
+<div class="section">
+  <h2>Properties <span class="badge">5</span></h2>
+  <table class="member-table">
+    <thead><tr><th>Name / Type</th><th>Description</th></tr></thead>
+    <tbody><tr>
+  <td class="prop-name">provider: LLMProvider</td>
+  <td class="prop-desc">OPENAI | ANTHROPIC | GOOGLE | OLLAMA</td>
+</tr><tr>
+  <td class="prop-name">model: String</td>
+  <td class="prop-desc">Model ID string (e.g. gpt-4o, claude-sonnet-4-5)</td>
+</tr><tr>
+  <td class="prop-name">maxTokens: Int</td>
+  <td class="prop-desc">Maximum response length (default 1200)</td>
+</tr><tr>
+  <td class="prop-name">temperature: Double</td>
+  <td class="prop-desc">0.0 = deterministic, 1.0 = creative (default 0.3)</td>
+</tr><tr>
+  <td class="prop-name">systemPrompt: String</td>
+  <td class="prop-desc">Bioinformatics expert system prompt (can be overridden)</td>
+</tr></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Method Summary <span class="badge">11</span></h2>
+  <table class="member-table">
+    <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+    <tbody><tr>
+  <td class="name"><a href="#openaiapiKey_model_maxTokens_temperature">openai(apiKey, model, maxTokens, temperature)</a></td>
+  <td class="ret">GPTClient</td>
+  <td class="desc">Factory: create OpenAI client</td>
+</tr><tr>
+  <td class="name"><a href="#anthropicapiKey_model_maxTokens_temperature">anthropic(apiKey, model, maxTokens, temperature)</a></td>
+  <td class="ret">GPTClient</td>
+  <td class="desc">Factory: create Anthropic Claude client</td>
+</tr><tr>
+  <td class="name"><a href="#googleapiKey_model_maxTokens_temperature">google(apiKey, model, maxTokens, temperature)</a></td>
+  <td class="ret">GPTClient</td>
+  <td class="desc">Factory: create Google Gemini client</td>
+</tr><tr>
+  <td class="name"><a href="#ollamamodel_host_port">ollama(model, host, port)</a></td>
+  <td class="ret">GPTClient</td>
+  <td class="desc">Factory: create Ollama local client (no API key)</td>
+</tr><tr>
+  <td class="name"><a href="#chatuserMessage">chat(userMessage)</a></td>
+  <td class="ret">LLMResponse</td>
+  <td class="desc">Send a free-form message and get a response</td>
+</tr><tr>
+  <td class="name"><a href="#interpretDNAseq_mlPredictions">interpretDNA(seq, mlPredictions)</a></td>
+  <td class="ret">LLMResponse</td>
+  <td class="desc">Expert DNA sequence interpretation including ORFs, GC content, ML prediction commentary</td>
+</tr><tr>
+  <td class="name"><a href="#interpretProteinseq_mlPredictions">interpretProtein(seq, mlPredictions)</a></td>
+  <td class="ret">LLMResponse</td>
+  <td class="desc">Protein function, localisation, stability, expression interpretation</td>
+</tr><tr>
+  <td class="name"><a href="#interpretDrugmol_mlPredictions_includeAdmet">interpretDrug(mol, mlPredictions, includeAdmet)</a></td>
+  <td class="ret">LLMResponse</td>
+  <td class="desc">Medicinal chemistry interpretation: drug-likeness, ADMET, alerts, optimisation suggestions</td>
+</tr><tr>
+  <td class="name"><a href="#askquestion">ask(question)</a></td>
+  <td class="ret">LLMResponse</td>
+  <td class="desc">Free-form bioinformatics Q&amp;A</td>
+</tr><tr>
+  <td class="name"><a href="#comparedescription1_description2_task">compare(description1, description2, task)</a></td>
+  <td class="ret">LLMResponse</td>
+  <td class="desc">Compare two biological entities for a specific task</td>
+</tr><tr>
+  <td class="name"><a href="#batchInterpretitems">batchInterpret(items)</a></td>
+  <td class="ret">List&lt;LLMResponse&gt;</td>
+  <td class="desc">Process multiple (context, question) pairs in one call</td>
+</tr></tbody>
+  </table>
+</div>
+<div class="section">
+  <h2>Method Detail</h2>
+  
+<div class="member-detail" id="openaiapiKey_model_maxTokens_temperature">
+  <div class="sig">openai(apiKey, model, maxTokens, temperature)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">GPTClient</div>
+  <div class="member-desc">Factory: create OpenAI client</div>
+</div>
+<div class="member-detail" id="anthropicapiKey_model_maxTokens_temperature">
+  <div class="sig">anthropic(apiKey, model, maxTokens, temperature)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">GPTClient</div>
+  <div class="member-desc">Factory: create Anthropic Claude client</div>
+</div>
+<div class="member-detail" id="googleapiKey_model_maxTokens_temperature">
+  <div class="sig">google(apiKey, model, maxTokens, temperature)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">GPTClient</div>
+  <div class="member-desc">Factory: create Google Gemini client</div>
+</div>
+<div class="member-detail" id="ollamamodel_host_port">
+  <div class="sig">ollama(model, host, port)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">GPTClient</div>
+  <div class="member-desc">Factory: create Ollama local client (no API key)</div>
+</div>
+<div class="member-detail" id="chatuserMessage">
+  <div class="sig">chat(userMessage)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">LLMResponse</div>
+  <div class="member-desc">Send a free-form message and get a response</div>
+</div>
+<div class="member-detail" id="interpretDNAseq_mlPredictions">
+  <div class="sig">interpretDNA(seq, mlPredictions)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">LLMResponse</div>
+  <div class="member-desc">Expert DNA sequence interpretation including ORFs, GC content, ML prediction commentary</div>
+</div>
+<div class="member-detail" id="interpretProteinseq_mlPredictions">
+  <div class="sig">interpretProtein(seq, mlPredictions)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">LLMResponse</div>
+  <div class="member-desc">Protein function, localisation, stability, expression interpretation</div>
+</div>
+<div class="member-detail" id="interpretDrugmol_mlPredictions_includeAdmet">
+  <div class="sig">interpretDrug(mol, mlPredictions, includeAdmet)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">LLMResponse</div>
+  <div class="member-desc">Medicinal chemistry interpretation: drug-likeness, ADMET, alerts, optimisation suggestions</div>
+</div>
+<div class="member-detail" id="askquestion">
+  <div class="sig">ask(question)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">LLMResponse</div>
+  <div class="member-desc">Free-form bioinformatics Q&amp;A</div>
+</div>
+<div class="member-detail" id="comparedescription1_description2_task">
+  <div class="sig">compare(description1, description2, task)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">LLMResponse</div>
+  <div class="member-desc">Compare two biological entities for a specific task</div>
+</div>
+<div class="member-detail" id="batchInterpretitems">
+  <div class="sig">batchInterpret(items)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">List&lt;LLMResponse&gt;</div>
+  <div class="member-desc">Process multiple (context, question) pairs in one call</div>
+</div>
+</div>
+
+<div class="example-block">
+  <div class="ex-label">&#9654; Code Example</div>
+  <pre><span class="cm">// <span class="tp">OpenAI</span></span>
+<span class="kw">val</span> gpt = <span class="tp">GPTClient</span>.openai(apiKey = <span class="tp">System</span>.getenv(<span class="st">&quot;OPENAI_API_KEY&quot;</span>))
+
+<span class="cm">// <span class="tp">Anthropic</span> <span class="tp">Claude</span></span>
+<span class="kw">val</span> claude = <span class="tp">GPTClient</span>.anthropic(apiKey = <span class="tp">System</span>.getenv(<span class="st">&quot;ANTHROPIC_API_KEY&quot;</span>))
+
+<span class="cm">// <span class="tp">Local</span> <span class="tp">Ollama</span> (free, offline, no key needed)</span>
+<span class="kw">val</span> local = <span class="tp">GPTClient</span>.ollama(model = <span class="st">&quot;llama3&quot;</span>)
+
+<span class="cm">// <span class="tp">DNA</span> interpretation with <span class="tp">ML</span> predictions</span>
+<span class="kw">val</span> dna    = <span class="tp">DNASequence</span>(<span class="st">&quot;<span class="tp">ATGGCCATTGTAATGGGCCGCTGA</span>&quot;</span>)
+<span class="kw">val</span> mlPred = <span class="tp">SequenceMLPredictor</span>.fullAnalysis(dna)
+<span class="kw">val</span> resp   = gpt.interpretDNA(dna, mlPred)
+
+<span class="kw">if</span> (!resp.isError()) {
+    <span class="kw">println</span>(resp.text)
+    <span class="kw">println</span>(<span class="st">&quot;<span class="tp">Tokens</span>: ${resp.totalTokens}&quot;</span>)
+}
+
+<span class="cm">// <span class="tp">Drug</span> interpretation</span>
+<span class="kw">val</span> aspirin = <span class="tp">Molecule</span>(<span class="st">&quot;<span class="tp">CC</span>(=O)<span class="tp">Oc1ccccc1C</span>(=O)O&quot;</span>, name=<span class="st">&quot;<span class="tp">Aspirin</span>&quot;</span>)
+<span class="kw">val</span> drugML  = <span class="tp">DrugMLPredictor</span>.fullAnalysis(aspirin)
+<span class="kw">println</span>(claude.interpretDrug(aspirin, drugML).text)
+
+<span class="cm">// <span class="tp">Extension</span> functions</span>
+<span class="kw">val</span> interp = dna.interpretWith(gpt, mlPred)
+<span class="kw">println</span>(interp.text)</pre>
+</div>
+</div>
+</body></html>

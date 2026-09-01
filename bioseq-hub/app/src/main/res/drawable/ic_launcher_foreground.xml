@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Central Bio-Helix & Molecule Motif -->
+    <!-- Rungs -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#38BDF8"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M38,36 L70,36" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#818CF8"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M42,48 L66,48" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#C084FC"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M44,60 L64,60" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#38BDF8"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M38,72 L70,72" />
+
+    <!-- Left Strand Wave -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeWidth="4.5"
+        android:strokeLineCap="round"
+        android:pathData="M36,28 C48,40 48,50 36,62 C26,72 34,80 44,82">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:startX="36"
+                android:startY="28"
+                android:endX="44"
+                android:endY="82"
+                android:type="linear">
+                <item android:color="#00F0FF" android:offset="0.0" />
+                <item android:color="#6366F1" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Right Strand Wave -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeWidth="4.5"
+        android:strokeLineCap="round"
+        android:pathData="M72,28 C60,40 60,50 72,62 C82,72 74,80 64,82">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:startX="72"
+                android:startY="28"
+                android:endX="64"
+                android:endY="82"
+                android:type="linear">
+                <item android:color="#A855F7" android:offset="0.0" />
+                <item android:color="#38BDF8" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Glowing Nodes / Nucleotides -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M38,36m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0" />
+    <path
+        android:fillColor="#C084FC"
+        android:pathData="M70,36m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0" />
+    <path
+        android:fillColor="#F472B6"
+        android:pathData="M54,54m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+    <path
+        android:fillColor="#34D399"
+        android:pathData="M38,72m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0" />
+    <path
+        android:fillColor="#60A5FA"
+        android:pathData="M70,72m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0" />
+</vector>

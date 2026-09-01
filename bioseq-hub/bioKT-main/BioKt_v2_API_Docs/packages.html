@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><title>BioKt – Packages</title>
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:13px; background:#0d1117; color:#e6edf3;
+  line-height:1.6;
+}
+a { color:#58a6ff; text-decoration:none; }
+a:hover { text-decoration:underline; color:#79c0ff; }
+code, pre {
+  font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+  font-size:12px;
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#161b22; }
+::-webkit-scrollbar-thumb { background:#30363d; border-radius:3px; }
+
+body { padding:0; overflow-x:hidden; }
+.header {
+  background: linear-gradient(135deg,#1f6feb 0%,#0d419d 100%);
+  padding:14px 12px 10px;
+  border-bottom:1px solid #30363d;
+}
+.header h2 { font-size:14px; color:#fff; font-weight:700; letter-spacing:.3px; }
+.header p  { font-size:10px; color:#adc8ff; margin-top:3px; }
+.section-label {
+  font-size:10px; font-weight:700; color:#8b949e;
+  text-transform:uppercase; letter-spacing:1px;
+  padding:12px 12px 4px;
+}
+.pkg-item {
+  padding:5px 12px; border-bottom:1px solid #30363d20;
+}
+.pkg-item a {
+  font-size:12px; font-weight:600; color:#58a6ff;
+  display:block; padding:2px 0;
+}
+.pkg-item a:hover { color:#79c0ff; background:#21262d; 
+  margin:0 -12px; padding:2px 12px; border-radius:2px; }
+.all-link {
+  padding:10px 12px; border-top:1px solid #30363d;
+  margin-top:4px;
+}
+.all-link a { font-size:11px; color:#8b949e; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h2>BioKt v2.0</h2>
+  <p>API Reference</p>
+</div>
+<div class="section-label">Modules</div>
+
+    <div class="pkg-item">
+      <a href="classes_biokt.sequences.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.sequences.html'; return true;"
+         title="Core biological sequence types: DNA, RNA, Protein. All inherit from BioSequence.">
+        Sequences
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.codons.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.codons.html'; return true;"
+         title="Codon translation tables. Standard, Vertebrate Mitochondrial, Yeast Mitochondrial and custom.">
+        Codon Tables
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.alignment.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.alignment.html'; return true;"
+         title="Pairwise and multiple sequence alignment. Needleman-Wunsch, Smith-Waterman, BLOSUM62, PAM250.">
+        Alignment
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.seqio.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.seqio.html'; return true;"
+         title="Parse and write biological sequence file formats: FASTA, FASTQ, GenBank, Stockholm.">
+        Sequence I/O
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.blast.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.blast.html'; return true;"
+         title="k-mer indexed sequence similarity search (BLASTn for DNA, BLASTp for protein).">
+        BLAST
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.phylo.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.phylo.html'; return true;"
+         title="Distance-based phylogenetic tree construction and Newick format I/O.">
+        Phylogenetics
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.analysis.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.analysis.html'; return true;"
+         title="Restriction enzymes, sequence statistics, population genetics (Tajima&#x27;s D, Fst, dN/dS), IUPAC codes.">
+        Analysis
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.molecule.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.molecule.html'; return true;"
+         title="Small molecule representation from SMILES strings. Atom-bond molecular graph, ring detection, implicit hydrogen assignment.">
+        Molecule
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.descriptors.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.descriptors.html'; return true;"
+         title="Molecular descriptors, drug-likeness filters, ADMET profiling, fingerprints, and virtual screening.">
+        Mol Descriptors
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.protdesc.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.protdesc.html'; return true;"
+         title="Machine-learning-ready protein descriptors: composition, CTD, QSO, PAAC, autocorrelation, and physicochemical profiles.">
+        Protein Descriptors
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.seqinteraction.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.seqinteraction.html'; return true;"
+         title="Sequence-level interaction modelling: protein-protein interaction, DNA hybridisation thermodynamics, RNA folding, miRNA targeting, CRISPR efficiency.">
+        Seq Interactions
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.molinteraction.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.molinteraction.html'; return true;"
+         title="Molecule-to-sequence binding: drug-protein scoring, drug-DNA intercalation/groove binding, drug-RNA affinity, pharmacophore modelling, QSAR, metal-ligand coordination.">
+        Mol Interactions
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.ml.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.ml.html'; return true;"
+         title="Inference-only ML engine. Pretrained Naive Bayes, kNN, Decision Tree, Random Forest, and Linear classifiers for DNA sequence classification, protein function prediction, and drug activity/toxicity/hERG risk. No training step. Load custom models from JSON weight files.">
+        ML Predictor
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.gpt.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.gpt.html'; return true;"
+         title="Multi-provider LLM client for biological interpretation. Supports OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, Google Gemini 1.5 Pro, and local Ollama models. Zero external dependencies — pure JVM HTTP.">
+        GPT Client
+      </a>
+    </div>
+    <div class="pkg-item">
+      <a href="classes_biokt.rice.html" target="classFrame"
+         onclick="top.detailFrame.location='pkg_biokt.rice.html'; return true;"
+         title="Rice-specific genomics subpackage. Import with: import biokt.rice.*  Covers VCF variant analysis, GFF3 genome annotation, SSR/cis-element/TE/R-gene analysis, RNA-seq normalisation and DE, and haplotype block/selection sweep analysis for Oryza sativa research.">
+        Rice Genomics (biokt.rice)
+      </a>
+    </div>
+<div class="all-link">
+  <a href="allclasses.html" target="classFrame">All Classes</a>
+</div>
+</body></html>

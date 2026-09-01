@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><title>ProteinInteraction – BioKt v2.0</title>
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:13px; background:#0d1117; color:#e6edf3;
+  line-height:1.6;
+}
+a { color:#58a6ff; text-decoration:none; }
+a:hover { text-decoration:underline; color:#79c0ff; }
+code, pre {
+  font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+  font-size:12px;
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#161b22; }
+::-webkit-scrollbar-thumb { background:#30363d; border-radius:3px; }
+
+body { padding:0 0 40px 0; overflow-x:auto; }
+
+/* ── top nav bar ── */
+.navbar {
+  background:#161b22; border-bottom:1px solid #30363d;
+  padding:8px 20px; display:flex; align-items:center; gap:16px;
+  position:sticky; top:0; z-index:10;
+}
+.navbar .brand { font-weight:700; color:#58a6ff; font-size:13px; }
+.navbar .nav-links { display:flex; gap:14px; margin-left:auto; }
+.navbar .nav-links a { font-size:11px; color:#8b949e; }
+.navbar .nav-links a:hover { color:#e6edf3; }
+
+/* ── breadcrumb ── */
+.breadcrumb {
+  padding:10px 24px; font-size:11px; color:#8b949e;
+  border-bottom:1px solid #30363d40;
+}
+.breadcrumb a { color:#8b949e; }
+.breadcrumb span { color:#c9d1d9; }
+
+/* ── page body ── */
+.content { padding:24px 28px; max-width:960px; }
+
+/* ── class hero ── */
+.cls-hero {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:22px 24px; margin-bottom:28px;
+}
+.cls-hero .kind-badge {
+  display:inline-block; font-size:10px; font-weight:700;
+  padding:2px 8px; border-radius:12px; margin-bottom:8px;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.cls-hero h1 { font-size:26px; font-weight:800; color:#e6edf3; margin-bottom:8px; }
+.cls-hero .src { font-size:11px; color:#8b949e; margin-bottom:12px; }
+.cls-hero .desc { font-size:13px; color:#c9d1d9; line-height:1.7; }
+
+/* ── section headers ── */
+.section {
+  margin-top:32px; border-top:2px solid #30363d; padding-top:18px;
+}
+.section h2 {
+  font-size:14px; font-weight:700; color:#e6edf3;
+  display:flex; align-items:center; gap:8px; margin-bottom:16px;
+}
+.section h2 .badge {
+  font-size:10px; background:#1f6feb; color:#fff;
+  padding:1px 7px; border-radius:10px; font-weight:600;
+}
+
+/* ── member tables ── */
+.member-table {
+  width:100%; border-collapse:collapse; border:1px solid #30363d;
+  border-radius:8px; overflow:hidden;
+}
+.member-table thead tr { background:#21262d; }
+.member-table thead th {
+  padding:9px 14px; text-align:left; font-size:11px;
+  font-weight:700; color:#8b949e; text-transform:uppercase;
+  letter-spacing:.5px; border-bottom:1px solid #30363d;
+}
+.member-table tbody tr:nth-child(even) { background:#161b22; }
+.member-table tbody tr:nth-child(odd) { background:#1c2128; }
+.member-table tbody tr:hover { background:#21262d; }
+.member-table td { padding:9px 14px; vertical-align:top; }
+.member-table td.name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#ffa657; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.ret {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:11px; color:#bc8cff; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.desc { font-size:12px; color:#c9d1d9; }
+.member-table td.prop-name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#3fb950;
+  border-right:1px solid #30363d40;
+}
+.member-table td.prop-desc { font-size:12px; color:#c9d1d9; }
+
+/* ── anchor detail cards (method detail section) ── */
+.member-detail {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:8px; padding:18px 20px; margin-bottom:14px;
+}
+.member-detail .sig {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:13px; color:#ffa657;
+  background:#1f2937; border-radius:5px;
+  padding:8px 14px; margin-bottom:10px;
+  border-left:3px solid #ffa657;
+}
+.member-detail .ret-label {
+  font-size:11px; color:#8b949e; margin-bottom:4px; font-weight:600;
+}
+.member-detail .ret-type {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#bc8cff;
+}
+.member-detail .member-desc {
+  font-size:13px; color:#c9d1d9; margin-top:10px; line-height:1.7;
+}
+
+/* ── code example block ── */
+.example-block {
+  background:#1f2937; border:1px solid #30363d;
+  border-radius:8px; padding:16px 18px; margin-top:24px;
+}
+.example-block .ex-label {
+  font-size:10px; font-weight:700; color:#3fb950;
+  text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px;
+}
+.example-block pre {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#e6edf3; line-height:1.7;
+  white-space:pre-wrap; word-break:break-all;
+}
+/* Syntax colouring in examples */
+.kw  { color:#ff7b72; }
+.st  { color:#a5d6ff; }
+.cm  { color:#8b949e; font-style:italic; }
+.fn  { color:#ffa657; }
+.num { color:#79c0ff; }
+.tp  { color:#ffa657; }
+
+/* ── overview cards ── */
+.module-card {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:20px 22px; margin-bottom:18px;
+}
+.module-card h3 {
+  font-size:16px; font-weight:700; color:#58a6ff; margin-bottom:6px;
+}
+.module-card .file-tag {
+  font-size:10px; color:#8b949e; font-family:monospace; margin-bottom:10px;
+}
+.module-card .mod-desc {
+  font-size:13px; color:#c9d1d9; line-height:1.6; margin-bottom:14px;
+}
+.cls-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:#21262d; border:1px solid #30363d;
+  border-radius:14px; padding:3px 10px; margin:3px;
+  font-size:11px; text-decoration:none;
+}
+.cls-chip:hover { background:#1f6feb20; border-color:#1f6feb; text-decoration:none; }
+.cls-chip .dot { width:6px; height:6px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="navbar">
+  <span class="brand">BioKt v2.0</span>
+  <div class="nav-links">
+    <a href="overview.html" target="detailFrame">Overview</a>
+    <a href="allclasses.html" target="classFrame">All Classes</a>
+    <a href="index.html" target="_top">Frames</a>
+  </div>
+</div>
+<div class="content">
+
+
+<div style="display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;margin-bottom:20px;border-bottom:1px solid #30363d40;
+  font-size:12px">
+  <span><a href="cls_biokt.protdesc_ProteinDescriptors.html">← ProteinDescriptors</a></span>
+  <a href="pkg_biokt.seqinteraction.html" style="color:#8b949e">
+    Seq Interactions module
+  </a>
+  <span><a href="cls_biokt.seqinteraction_DNAInteraction.html">DNAInteraction →</a></span>
+</div>
+<div class="cls-hero">
+  <div class="kind-badge" style="background:#79c0ff20;color:#79c0ff;border:1px solid #79c0ff40">
+    object
+  </div>
+  <h1>ProteinInteraction</h1>
+  <div class="src">&#128196; SequenceInteraction.kt · Seq Interactions module</div>
+  <div class="desc">Protein-protein interaction scoring and structural feature prediction.</div>
+</div>
+
+
+<div class="section">
+  <h2>Method Summary <span class="badge">5</span></h2>
+  <table class="member-table">
+    <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+    <tbody><tr>
+  <td class="name"><a href="#scoreseqA_seqB">score(seqA, seqB)</a></td>
+  <td class="ret">InteractionScore</td>
+  <td class="desc">Empirical PPI score based on charge complementarity, hydrophobicity, interface propensity and GRAVY</td>
+</tr><tr>
+  <td class="name"><a href="#predictInterfaceResiduesseq">predictInterfaceResidues(seq)</a></td>
+  <td class="ret">List&lt;InterfaceResidue&gt;</td>
+  <td class="desc">Ofran-Rost propensity scores for interface residue prediction</td>
+</tr><tr>
+  <td class="name"><a href="#conjunctionFeaturesseqA_seqB">conjunctionFeatures(seqA, seqB)</a></td>
+  <td class="ret">Map&lt;String,Double&gt;</td>
+  <td class="desc">Pairwise ML feature vector for PPI classifiers</td>
+</tr><tr>
+  <td class="name"><a href="#predictCoiledCoilseq_window">predictCoiledCoil(seq, window)</a></td>
+  <td class="ret">List&lt;CoiledCoilSegment&gt;</td>
+  <td class="desc">Heptad-repeat coiled-coil prediction with merging</td>
+</tr><tr>
+  <td class="name"><a href="#predictTransmembraneHelicesseq_window_threshold">predictTransmembraneHelices(seq, window, threshold)</a></td>
+  <td class="ret">List&lt;IntRange&gt;</td>
+  <td class="desc">Kyte-Doolittle sliding-window TM helix prediction</td>
+</tr></tbody>
+  </table>
+</div>
+<div class="section">
+  <h2>Method Detail</h2>
+  
+<div class="member-detail" id="scoreseqA_seqB">
+  <div class="sig">score(seqA, seqB)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">InteractionScore</div>
+  <div class="member-desc">Empirical PPI score based on charge complementarity, hydrophobicity, interface propensity and GRAVY</div>
+</div>
+<div class="member-detail" id="predictInterfaceResiduesseq">
+  <div class="sig">predictInterfaceResidues(seq)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">List&lt;InterfaceResidue&gt;</div>
+  <div class="member-desc">Ofran-Rost propensity scores for interface residue prediction</div>
+</div>
+<div class="member-detail" id="conjunctionFeaturesseqA_seqB">
+  <div class="sig">conjunctionFeatures(seqA, seqB)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">Map&lt;String,Double&gt;</div>
+  <div class="member-desc">Pairwise ML feature vector for PPI classifiers</div>
+</div>
+<div class="member-detail" id="predictCoiledCoilseq_window">
+  <div class="sig">predictCoiledCoil(seq, window)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">List&lt;CoiledCoilSegment&gt;</div>
+  <div class="member-desc">Heptad-repeat coiled-coil prediction with merging</div>
+</div>
+<div class="member-detail" id="predictTransmembraneHelicesseq_window_threshold">
+  <div class="sig">predictTransmembraneHelices(seq, window, threshold)</div>
+  <div class="ret-label">Returns</div>
+  <div class="ret-type">List&lt;IntRange&gt;</div>
+  <div class="member-desc">Kyte-Doolittle sliding-window TM helix prediction</div>
+</div>
+</div>
+
+<div class="example-block">
+  <div class="ex-label">&#9654; Code Example</div>
+  <pre><span class="kw">val</span> seqA = <span class="tp">ProteinSequence</span>(<span class="st">&quot;<span class="tp">MKALVLLYLLFSSAYSRGVFRRDTHKPP</span>&quot;</span>)
+<span class="kw">val</span> seqB = <span class="tp">ProteinSequence</span>(<span class="st">&quot;<span class="tp">ACDEFGHIKLMNPQRSTVWYACDEFGHI</span>&quot;</span>)
+
+<span class="kw">val</span> ppi = <span class="tp">ProteinInteraction</span>.score(seqA, seqB)
+<span class="kw">println</span>(ppi.confidence)          <span class="cm">// 0.88</span>
+<span class="kw">println</span>(ppi.isLikelyInteracting) <span class="cm">// <span class="kw">true</span></span>
+<span class="kw">println</span>(ppi.evidence)
+<span class="cm">// [<span class="tp">Charge</span> complementarity, <span class="tp">Hydrophobic</span> patch match, <span class="tp">High</span> <span class="kw">interface</span> propensity]</span>
+
+<span class="kw">val</span> iface = <span class="tp">ProteinInteraction</span>.predictInterfaceResidues(seqA)
+iface.filter { it.isLikelyInterface }
+     .forEach { <span class="kw">println</span>(<span class="st">&quot;<span class="tp">Pos</span> ${it.position}: ${it.aminoAcid}&quot;</span>) }
+
+<span class="kw">val</span> cc = <span class="tp">ProteinInteraction</span>.predictCoiledCoil(seqA)
+cc.forEach { <span class="kw">println</span>(<span class="st">&quot;<span class="tp">Coiled</span> coil ${it.start}–${it.end}, p=${it.probability}&quot;</span>) }</pre>
+</div>
+</div>
+</body></html>

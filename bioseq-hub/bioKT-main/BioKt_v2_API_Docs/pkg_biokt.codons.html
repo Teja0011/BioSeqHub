@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><title>Codon Tables – BioKt v2.0</title>
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:13px; background:#0d1117; color:#e6edf3;
+  line-height:1.6;
+}
+a { color:#58a6ff; text-decoration:none; }
+a:hover { text-decoration:underline; color:#79c0ff; }
+code, pre {
+  font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+  font-size:12px;
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#161b22; }
+::-webkit-scrollbar-thumb { background:#30363d; border-radius:3px; }
+
+body { padding:0 0 40px 0; overflow-x:auto; }
+
+/* ── top nav bar ── */
+.navbar {
+  background:#161b22; border-bottom:1px solid #30363d;
+  padding:8px 20px; display:flex; align-items:center; gap:16px;
+  position:sticky; top:0; z-index:10;
+}
+.navbar .brand { font-weight:700; color:#58a6ff; font-size:13px; }
+.navbar .nav-links { display:flex; gap:14px; margin-left:auto; }
+.navbar .nav-links a { font-size:11px; color:#8b949e; }
+.navbar .nav-links a:hover { color:#e6edf3; }
+
+/* ── breadcrumb ── */
+.breadcrumb {
+  padding:10px 24px; font-size:11px; color:#8b949e;
+  border-bottom:1px solid #30363d40;
+}
+.breadcrumb a { color:#8b949e; }
+.breadcrumb span { color:#c9d1d9; }
+
+/* ── page body ── */
+.content { padding:24px 28px; max-width:960px; }
+
+/* ── class hero ── */
+.cls-hero {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:22px 24px; margin-bottom:28px;
+}
+.cls-hero .kind-badge {
+  display:inline-block; font-size:10px; font-weight:700;
+  padding:2px 8px; border-radius:12px; margin-bottom:8px;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.cls-hero h1 { font-size:26px; font-weight:800; color:#e6edf3; margin-bottom:8px; }
+.cls-hero .src { font-size:11px; color:#8b949e; margin-bottom:12px; }
+.cls-hero .desc { font-size:13px; color:#c9d1d9; line-height:1.7; }
+
+/* ── section headers ── */
+.section {
+  margin-top:32px; border-top:2px solid #30363d; padding-top:18px;
+}
+.section h2 {
+  font-size:14px; font-weight:700; color:#e6edf3;
+  display:flex; align-items:center; gap:8px; margin-bottom:16px;
+}
+.section h2 .badge {
+  font-size:10px; background:#1f6feb; color:#fff;
+  padding:1px 7px; border-radius:10px; font-weight:600;
+}
+
+/* ── member tables ── */
+.member-table {
+  width:100%; border-collapse:collapse; border:1px solid #30363d;
+  border-radius:8px; overflow:hidden;
+}
+.member-table thead tr { background:#21262d; }
+.member-table thead th {
+  padding:9px 14px; text-align:left; font-size:11px;
+  font-weight:700; color:#8b949e; text-transform:uppercase;
+  letter-spacing:.5px; border-bottom:1px solid #30363d;
+}
+.member-table tbody tr:nth-child(even) { background:#161b22; }
+.member-table tbody tr:nth-child(odd) { background:#1c2128; }
+.member-table tbody tr:hover { background:#21262d; }
+.member-table td { padding:9px 14px; vertical-align:top; }
+.member-table td.name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#ffa657; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.ret {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:11px; color:#bc8cff; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.desc { font-size:12px; color:#c9d1d9; }
+.member-table td.prop-name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#3fb950;
+  border-right:1px solid #30363d40;
+}
+.member-table td.prop-desc { font-size:12px; color:#c9d1d9; }
+
+/* ── anchor detail cards (method detail section) ── */
+.member-detail {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:8px; padding:18px 20px; margin-bottom:14px;
+}
+.member-detail .sig {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:13px; color:#ffa657;
+  background:#1f2937; border-radius:5px;
+  padding:8px 14px; margin-bottom:10px;
+  border-left:3px solid #ffa657;
+}
+.member-detail .ret-label {
+  font-size:11px; color:#8b949e; margin-bottom:4px; font-weight:600;
+}
+.member-detail .ret-type {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#bc8cff;
+}
+.member-detail .member-desc {
+  font-size:13px; color:#c9d1d9; margin-top:10px; line-height:1.7;
+}
+
+/* ── code example block ── */
+.example-block {
+  background:#1f2937; border:1px solid #30363d;
+  border-radius:8px; padding:16px 18px; margin-top:24px;
+}
+.example-block .ex-label {
+  font-size:10px; font-weight:700; color:#3fb950;
+  text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px;
+}
+.example-block pre {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#e6edf3; line-height:1.7;
+  white-space:pre-wrap; word-break:break-all;
+}
+/* Syntax colouring in examples */
+.kw  { color:#ff7b72; }
+.st  { color:#a5d6ff; }
+.cm  { color:#8b949e; font-style:italic; }
+.fn  { color:#ffa657; }
+.num { color:#79c0ff; }
+.tp  { color:#ffa657; }
+
+/* ── overview cards ── */
+.module-card {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:20px 22px; margin-bottom:18px;
+}
+.module-card h3 {
+  font-size:16px; font-weight:700; color:#58a6ff; margin-bottom:6px;
+}
+.module-card .file-tag {
+  font-size:10px; color:#8b949e; font-family:monospace; margin-bottom:10px;
+}
+.module-card .mod-desc {
+  font-size:13px; color:#c9d1d9; line-height:1.6; margin-bottom:14px;
+}
+.cls-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:#21262d; border:1px solid #30363d;
+  border-radius:14px; padding:3px 10px; margin:3px;
+  font-size:11px; text-decoration:none;
+}
+.cls-chip:hover { background:#1f6feb20; border-color:#1f6feb; text-decoration:none; }
+.cls-chip .dot { width:6px; height:6px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="navbar">
+  <span class="brand">BioKt v2.0</span>
+  <div class="nav-links">
+    <a href="overview.html" target="detailFrame">Overview</a>
+    <a href="allclasses.html" target="classFrame">All Classes</a>
+    <a href="index.html" target="_top">Frames</a>
+  </div>
+</div>
+<div class="content">
+
+<div style="margin-bottom:24px">
+  <div style="font-size:11px;color:#8b949e;margin-bottom:4px">MODULE</div>
+  <h1 style="font-size:26px;font-weight:800;color:#e6edf3">Codon Tables</h1>
+  <div style="font-family:monospace;font-size:12px;color:#8b949e;margin-top:4px">CodonTable.kt</div>
+  <p style="font-size:13px;color:#c9d1d9;margin-top:12px;line-height:1.7">Codon translation tables. Standard, Vertebrate Mitochondrial, Yeast Mitochondrial and custom.</p>
+</div>
+
+<div class="module-card" style="cursor:pointer" onclick="top.detailFrame.location='cls_biokt.codons_CodonTable.html'">
+  <h3><a href="cls_biokt.codons_CodonTable.html" target="detailFrame">CodonTable</a>
+    <span style="font-size:11px;font-weight:400;color:#56d364;margin-left:8px">class</span>
+  </h3>
+  <div class="mod-desc">Maps 64 codons to amino acids/stop. Use CodonTables.STANDARD for the default.</div>
+  <div style="font-size:11px;color:#8b949e">
+    2 properties · 2 methods
+  </div>
+</div>
+<div class="module-card" style="cursor:pointer" onclick="top.detailFrame.location='cls_biokt.codons_CodonTables.html'">
+  <h3><a href="cls_biokt.codons_CodonTables.html" target="detailFrame">CodonTables</a>
+    <span style="font-size:11px;font-weight:400;color:#79c0ff;margin-left:8px">object</span>
+  </h3>
+  <div class="mod-desc">Factory for standard codon tables.</div>
+  <div style="font-size:11px;color:#8b949e">
+    3 properties · 0 methods
+  </div>
+</div>
+</div>
+</body></html>

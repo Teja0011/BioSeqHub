@@ -1,0 +1,6 @@
+{
+  "name": "BioSeq Hub",
+  "description": "Professional bioinformatics and genomics research platform with sequence analysis, annotation aggregation, ortholog/paralog detection, interactive 3D structures, Room offline caching, and Gemini AI assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

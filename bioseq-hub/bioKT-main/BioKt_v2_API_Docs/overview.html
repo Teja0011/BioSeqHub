@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><title>BioKt v2.0 Overview – BioKt v2.0</title>
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:13px; background:#0d1117; color:#e6edf3;
+  line-height:1.6;
+}
+a { color:#58a6ff; text-decoration:none; }
+a:hover { text-decoration:underline; color:#79c0ff; }
+code, pre {
+  font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+  font-size:12px;
+}
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#161b22; }
+::-webkit-scrollbar-thumb { background:#30363d; border-radius:3px; }
+
+body { padding:0 0 40px 0; overflow-x:auto; }
+
+/* ── top nav bar ── */
+.navbar {
+  background:#161b22; border-bottom:1px solid #30363d;
+  padding:8px 20px; display:flex; align-items:center; gap:16px;
+  position:sticky; top:0; z-index:10;
+}
+.navbar .brand { font-weight:700; color:#58a6ff; font-size:13px; }
+.navbar .nav-links { display:flex; gap:14px; margin-left:auto; }
+.navbar .nav-links a { font-size:11px; color:#8b949e; }
+.navbar .nav-links a:hover { color:#e6edf3; }
+
+/* ── breadcrumb ── */
+.breadcrumb {
+  padding:10px 24px; font-size:11px; color:#8b949e;
+  border-bottom:1px solid #30363d40;
+}
+.breadcrumb a { color:#8b949e; }
+.breadcrumb span { color:#c9d1d9; }
+
+/* ── page body ── */
+.content { padding:24px 28px; max-width:960px; }
+
+/* ── class hero ── */
+.cls-hero {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:22px 24px; margin-bottom:28px;
+}
+.cls-hero .kind-badge {
+  display:inline-block; font-size:10px; font-weight:700;
+  padding:2px 8px; border-radius:12px; margin-bottom:8px;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.cls-hero h1 { font-size:26px; font-weight:800; color:#e6edf3; margin-bottom:8px; }
+.cls-hero .src { font-size:11px; color:#8b949e; margin-bottom:12px; }
+.cls-hero .desc { font-size:13px; color:#c9d1d9; line-height:1.7; }
+
+/* ── section headers ── */
+.section {
+  margin-top:32px; border-top:2px solid #30363d; padding-top:18px;
+}
+.section h2 {
+  font-size:14px; font-weight:700; color:#e6edf3;
+  display:flex; align-items:center; gap:8px; margin-bottom:16px;
+}
+.section h2 .badge {
+  font-size:10px; background:#1f6feb; color:#fff;
+  padding:1px 7px; border-radius:10px; font-weight:600;
+}
+
+/* ── member tables ── */
+.member-table {
+  width:100%; border-collapse:collapse; border:1px solid #30363d;
+  border-radius:8px; overflow:hidden;
+}
+.member-table thead tr { background:#21262d; }
+.member-table thead th {
+  padding:9px 14px; text-align:left; font-size:11px;
+  font-weight:700; color:#8b949e; text-transform:uppercase;
+  letter-spacing:.5px; border-bottom:1px solid #30363d;
+}
+.member-table tbody tr:nth-child(even) { background:#161b22; }
+.member-table tbody tr:nth-child(odd) { background:#1c2128; }
+.member-table tbody tr:hover { background:#21262d; }
+.member-table td { padding:9px 14px; vertical-align:top; }
+.member-table td.name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#ffa657; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.ret {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:11px; color:#bc8cff; white-space:nowrap;
+  border-right:1px solid #30363d40;
+}
+.member-table td.desc { font-size:12px; color:#c9d1d9; }
+.member-table td.prop-name {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#3fb950;
+  border-right:1px solid #30363d40;
+}
+.member-table td.prop-desc { font-size:12px; color:#c9d1d9; }
+
+/* ── anchor detail cards (method detail section) ── */
+.member-detail {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:8px; padding:18px 20px; margin-bottom:14px;
+}
+.member-detail .sig {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:13px; color:#ffa657;
+  background:#1f2937; border-radius:5px;
+  padding:8px 14px; margin-bottom:10px;
+  border-left:3px solid #ffa657;
+}
+.member-detail .ret-label {
+  font-size:11px; color:#8b949e; margin-bottom:4px; font-weight:600;
+}
+.member-detail .ret-type {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#bc8cff;
+}
+.member-detail .member-desc {
+  font-size:13px; color:#c9d1d9; margin-top:10px; line-height:1.7;
+}
+
+/* ── code example block ── */
+.example-block {
+  background:#1f2937; border:1px solid #30363d;
+  border-radius:8px; padding:16px 18px; margin-top:24px;
+}
+.example-block .ex-label {
+  font-size:10px; font-weight:700; color:#3fb950;
+  text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px;
+}
+.example-block pre {
+  font-family:'JetBrains Mono','Fira Code',monospace;
+  font-size:12px; color:#e6edf3; line-height:1.7;
+  white-space:pre-wrap; word-break:break-all;
+}
+/* Syntax colouring in examples */
+.kw  { color:#ff7b72; }
+.st  { color:#a5d6ff; }
+.cm  { color:#8b949e; font-style:italic; }
+.fn  { color:#ffa657; }
+.num { color:#79c0ff; }
+.tp  { color:#ffa657; }
+
+/* ── overview cards ── */
+.module-card {
+  background:#161b22; border:1px solid #30363d;
+  border-radius:10px; padding:20px 22px; margin-bottom:18px;
+}
+.module-card h3 {
+  font-size:16px; font-weight:700; color:#58a6ff; margin-bottom:6px;
+}
+.module-card .file-tag {
+  font-size:10px; color:#8b949e; font-family:monospace; margin-bottom:10px;
+}
+.module-card .mod-desc {
+  font-size:13px; color:#c9d1d9; line-height:1.6; margin-bottom:14px;
+}
+.cls-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:#21262d; border:1px solid #30363d;
+  border-radius:14px; padding:3px 10px; margin:3px;
+  font-size:11px; text-decoration:none;
+}
+.cls-chip:hover { background:#1f6feb20; border-color:#1f6feb; text-decoration:none; }
+.cls-chip .dot { width:6px; height:6px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="navbar">
+  <span class="brand">BioKt v2.0</span>
+  <div class="nav-links">
+    <a href="overview.html" target="detailFrame">Overview</a>
+    <a href="allclasses.html" target="classFrame">All Classes</a>
+    <a href="index.html" target="_top">Frames</a>
+  </div>
+</div>
+<div class="content">
+
+<div style="margin-bottom:28px">
+  <div style="background:linear-gradient(135deg,#1f6feb 0%,#0d419d 100%);
+    border-radius:12px;padding:28px 30px;margin-bottom:24px;">
+    <h1 style="font-size:30px;font-weight:800;color:#fff;margin-bottom:8px">BioKt v2.0</h1>
+    <p style="font-size:14px;color:#adc8ff;line-height:1.6">
+      A comprehensive bioinformatics library for Kotlin/JVM. Covers sequence analysis, 
+      pairwise and multiple alignment, phylogenetics, restriction enzymes, BLAST,
+      SMILES-based molecular modelling, drug-likeness descriptors, ADMET profiling,
+      molecular fingerprints, virtual screening, protein descriptors, sequence-sequence
+      interactions, and molecule-sequence binding.<br><br>
+      <strong style="color:#fff">12 modules · 37 classes/objects · 140+ methods · 39/39 tests passing</strong>
+    </p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:28px;font-weight:800;color:#58a6ff">12</div>
+      <div style="font-size:11px;color:#8b949e">Modules</div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:28px;font-weight:800;color:#3fb950">37</div>
+      <div style="font-size:11px;color:#8b949e">Classes &amp; Objects</div>
+    </div>
+    <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:28px;font-weight:800;color:#bc8cff">140+</div>
+      <div style="font-size:11px;color:#8b949e">API Methods</div>
+    </div>
+  </div>
+</div>
+
+<div class="module-card">
+  <h3><a href="pkg_biokt.sequences.html" target="detailFrame">Sequences</a></h3>
+  <div class="file-tag">Sequence.kt</div>
+  <div class="mod-desc">Core biological sequence types: DNA, RNA, Protein. All inherit from BioSequence.</div>
+  <div><a class="cls-chip" href="cls_biokt.sequences_BioSequence.html" target="detailFrame">
+  <span class="dot" style="background:#d2a8ff"></span>
+  <span style="color:#d2a8ff">BioSequence</span>
+  <span style="color:#8b949e;font-size:10px">sealed class</span>
+</a><a class="cls-chip" href="cls_biokt.sequences_DNASequence.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">DNASequence</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.sequences_RNASequence.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">RNASequence</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.sequences_ProteinSequence.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">ProteinSequence</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.sequences_Orf.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">Orf</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.codons.html" target="detailFrame">Codon Tables</a></h3>
+  <div class="file-tag">CodonTable.kt</div>
+  <div class="mod-desc">Codon translation tables. Standard, Vertebrate Mitochondrial, Yeast Mitochondrial and custom.</div>
+  <div><a class="cls-chip" href="cls_biokt.codons_CodonTable.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">CodonTable</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.codons_CodonTables.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">CodonTables</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.alignment.html" target="detailFrame">Alignment</a></h3>
+  <div class="file-tag">Alignment.kt</div>
+  <div class="mod-desc">Pairwise and multiple sequence alignment. Needleman-Wunsch, Smith-Waterman, BLOSUM62, PAM250.</div>
+  <div><a class="cls-chip" href="cls_biokt.alignment_PairwiseAligner.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">PairwiseAligner</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.alignment_PairwiseAlignment.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">PairwiseAlignment</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a><a class="cls-chip" href="cls_biokt.alignment_MultipleSequenceAligner.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">MultipleSequenceAligner</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.alignment_ScoringMatrices.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">ScoringMatrices</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.seqio.html" target="detailFrame">Sequence I/O</a></h3>
+  <div class="file-tag">SeqIO.kt</div>
+  <div class="mod-desc">Parse and write biological sequence file formats: FASTA, FASTQ, GenBank, Stockholm.</div>
+  <div><a class="cls-chip" href="cls_biokt.seqio_SeqIO.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">SeqIO</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.seqio_SeqRecord.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">SeqRecord</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.blast.html" target="detailFrame">BLAST</a></h3>
+  <div class="file-tag">Blast.kt</div>
+  <div class="mod-desc">k-mer indexed sequence similarity search (BLASTn for DNA, BLASTp for protein).</div>
+  <div><a class="cls-chip" href="cls_biokt.blast_SequenceDatabase.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">SequenceDatabase</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.phylo.html" target="detailFrame">Phylogenetics</a></h3>
+  <div class="file-tag">Phylogenetics.kt</div>
+  <div class="mod-desc">Distance-based phylogenetic tree construction and Newick format I/O.</div>
+  <div><a class="cls-chip" href="cls_biokt.phylo_TreeBuilder.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">TreeBuilder</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.phylo_PhyloTree.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">PhyloTree</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.phylo_DistanceMatrix.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">DistanceMatrix</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.analysis.html" target="detailFrame">Analysis</a></h3>
+  <div class="file-tag">Analysis.kt</div>
+  <div class="mod-desc">Restriction enzymes, sequence statistics, population genetics (Tajima&#x27;s D, Fst, dN/dS), IUPAC codes.</div>
+  <div><a class="cls-chip" href="cls_biokt.analysis_RestrictionEnzymes.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RestrictionEnzymes</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.analysis_SeqStats.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">SeqStats</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.analysis_PopGen.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">PopGen</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.analysis_IUPAC.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">IUPAC</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.molecule.html" target="detailFrame">Molecule</a></h3>
+  <div class="file-tag">Molecule.kt</div>
+  <div class="mod-desc">Small molecule representation from SMILES strings. Atom-bond molecular graph, ring detection, implicit hydrogen assignment.</div>
+  <div><a class="cls-chip" href="cls_biokt.molecule_Molecule.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">Molecule</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.molecule_Atom.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">Atom</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a><a class="cls-chip" href="cls_biokt.molecule_Bond.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">Bond</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a><a class="cls-chip" href="cls_biokt.molecule_BondType.html" target="detailFrame">
+  <span class="dot" style="background:#f78166"></span>
+  <span style="color:#f78166">BondType</span>
+  <span style="color:#8b949e;font-size:10px">enum class</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.descriptors.html" target="detailFrame">Mol Descriptors</a></h3>
+  <div class="file-tag">MolDescriptors.kt</div>
+  <div class="mod-desc">Molecular descriptors, drug-likeness filters, ADMET profiling, fingerprints, and virtual screening.</div>
+  <div><a class="cls-chip" href="cls_biokt.descriptors_MolDescriptors.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">MolDescriptors</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.descriptors_Fingerprints.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">Fingerprints</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.descriptors_VirtualScreening.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">VirtualScreening</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.protdesc.html" target="detailFrame">Protein Descriptors</a></h3>
+  <div class="file-tag">ProteinDescriptors.kt</div>
+  <div class="mod-desc">Machine-learning-ready protein descriptors: composition, CTD, QSO, PAAC, autocorrelation, and physicochemical profiles.</div>
+  <div><a class="cls-chip" href="cls_biokt.protdesc_ProteinDescriptors.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">ProteinDescriptors</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.seqinteraction.html" target="detailFrame">Seq Interactions</a></h3>
+  <div class="file-tag">SequenceInteraction.kt</div>
+  <div class="mod-desc">Sequence-level interaction modelling: protein-protein interaction, DNA hybridisation thermodynamics, RNA folding, miRNA targeting, CRISPR efficiency.</div>
+  <div><a class="cls-chip" href="cls_biokt.seqinteraction_ProteinInteraction.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">ProteinInteraction</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.seqinteraction_DNAInteraction.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DNAInteraction</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.seqinteraction_RNAInteraction.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RNAInteraction</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.seqinteraction_DNARNAInteraction.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DNARNAInteraction</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.molinteraction.html" target="detailFrame">Mol Interactions</a></h3>
+  <div class="file-tag">MoleculeInteraction.kt</div>
+  <div class="mod-desc">Molecule-to-sequence binding: drug-protein scoring, drug-DNA intercalation/groove binding, drug-RNA affinity, pharmacophore modelling, QSAR, metal-ligand coordination.</div>
+  <div><a class="cls-chip" href="cls_biokt.molinteraction_DrugProteinBinding.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DrugProteinBinding</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.molinteraction_DrugDNABinding.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DrugDNABinding</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.molinteraction_DrugRNABinding.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DrugRNABinding</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.molinteraction_MetalLigandBinding.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">MetalLigandBinding</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.ml.html" target="detailFrame">ML Predictor</a></h3>
+  <div class="file-tag">MLPredictor.kt</div>
+  <div class="mod-desc">Inference-only ML engine. Pretrained Naive Bayes, kNN, Decision Tree, Random Forest, and Linear classifiers for DNA sequence classification, protein function prediction, and drug activity/toxicity/hERG risk. No training step. Load custom models from JSON weight files.</div>
+  <div><a class="cls-chip" href="cls_biokt.ml_SequenceMLPredictor.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">SequenceMLPredictor</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.ml_ProteinMLPredictor.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">ProteinMLPredictor</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.ml_DrugMLPredictor.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DrugMLPredictor</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.ml_PretrainedModels.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">PretrainedModels</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.ml_CustomModelLoader.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">CustomModelLoader</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.ml_Ensemble.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">Ensemble</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.ml_FeatureExtractor.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">FeatureExtractor</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.gpt.html" target="detailFrame">GPT Client</a></h3>
+  <div class="file-tag">GPTClient.kt</div>
+  <div class="mod-desc">Multi-provider LLM client for biological interpretation. Supports OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, Google Gemini 1.5 Pro, and local Ollama models. Zero external dependencies — pure JVM HTTP.</div>
+  <div><a class="cls-chip" href="cls_biokt.gpt_GPTClient.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">GPTClient</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.gpt_GPTConfig.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">GPTConfig</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.gpt_LLMModels.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">LLMModels</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.gpt_LLMResponse.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">LLMResponse</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a></div>
+</div>
+<div class="module-card">
+  <h3><a href="pkg_biokt.rice.html" target="detailFrame">Rice Genomics (biokt.rice)</a></h3>
+  <div class="file-tag">rice/</div>
+  <div class="mod-desc">Rice-specific genomics subpackage. Import with: import biokt.rice.*  Covers VCF variant analysis, GFF3 genome annotation, SSR/cis-element/TE/R-gene analysis, RNA-seq normalisation and DE, and haplotype block/selection sweep analysis for Oryza sativa research.</div>
+  <div><a class="cls-chip" href="cls_biokt.rice_VcfParser.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">VcfParser</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_VcfFile.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">VcfFile</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.rice_VcfRecord.html" target="detailFrame">
+  <span class="dot" style="background:#ffa657"></span>
+  <span style="color:#ffa657">VcfRecord</span>
+  <span style="color:#8b949e;font-size:10px">data class</span>
+</a><a class="cls-chip" href="cls_biokt.rice_RiceVariantUtils.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RiceVariantUtils</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_AnnotationParser.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">AnnotationParser</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_AnnotationDb.html" target="detailFrame">
+  <span class="dot" style="background:#56d364"></span>
+  <span style="color:#56d364">AnnotationDb</span>
+  <span style="color:#8b949e;font-size:10px">class</span>
+</a><a class="cls-chip" href="cls_biokt.rice_RiceGeneIds.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RiceGeneIds</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_SSRDetector.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">SSRDetector</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_CisElementScanner.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">CisElementScanner</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_TEClassifier.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">TEClassifier</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_RGeneClassifier.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RGeneClassifier</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_FloweringGenes.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">FloweringGenes</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_RiceChromosomes.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RiceChromosomes</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_ExpressionNormaliser.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">ExpressionNormaliser</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_DifferentialExpression.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">DifferentialExpression</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_RiceStressGeneSets.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">RiceStressGeneSets</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_CoexpressionAnalysis.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">CoexpressionAnalysis</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_HaplotypeBlocks.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">HaplotypeBlocks</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_WindowedDiversity.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">WindowedDiversity</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a><a class="cls-chip" href="cls_biokt.rice_SelectionSweepDetector.html" target="detailFrame">
+  <span class="dot" style="background:#79c0ff"></span>
+  <span style="color:#79c0ff">SelectionSweepDetector</span>
+  <span style="color:#8b949e;font-size:10px">object</span>
+</a></div>
+</div>
+</div>
+</body></html>
